@@ -39,16 +39,20 @@ app.listen(port, () => {
 })
 
 io.on("connection", (socket) => {
-    socket.on('join-lobby', (gameId) => {
-        gameRooms[gameId].playerIds.push(socket.id);
-        const playerIds = gameRooms[gameId].playerIds;
-        socket.broadcast.emit('update-lobby', playerIds);
+    socket.on('join-lobby', (gameId, playerName) => {
+        const newPlayer = {
+            id: socket.id,
+            displayName: playerName,
+        }
+        gameRooms[gameId].players.push(newPlayer);
+        const players = gameRooms[gameId].players;
+        socket.broadcast.emit('update-lobby', players);
     });
 
     socket.on('leave-lobby', (gameId) => {
-        gameRooms[gameId].playerIds = gameRooms[gameId].playerIds.filter(playerId => playerId !== socket.id);
-        const playerIds = gameRooms[gameId].playerIds;
-        socket.broadcast.emit('update-lobby', playerIds);
+        gameRooms[gameId].players = gameRooms[gameId].players.filter(player => player.id !== socket.id);
+        const players = gameRooms[gameId].players;
+        socket.broadcast.emit('update-lobby', players);
     });
 });
 
