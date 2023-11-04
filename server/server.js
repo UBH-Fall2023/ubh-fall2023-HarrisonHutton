@@ -2,9 +2,16 @@ import express from 'express'
 import { Server } from 'socket.io';
 import * as http from 'http';
 import {v4 as uuidv4} from 'uuid';
+import cors from 'cors';
 import { createNewGame } from './gameHandlers/newGame.js'
 
 const app = express()
+
+const corsOptions = {
+    origin: '*'
+}
+app.use(cors(corsOptions));
+
 const port = 3000
 const server = http.createServer(app);
 
