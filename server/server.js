@@ -40,7 +40,15 @@ app.listen(port, () => {
 
 io.on("connection", (socket) => {
     socket.on('join-lobby', (gameId) => {
+        gameRooms[gameId].playerIds.push(socket.id);
+        const playerIds = gameRooms[gameId].playerIds;
+        socket.broadcast.emit('update-lobby', playerIds);
+    });
+
+    socket.on('leave-lobby', (gameId) => {
+        gameRooms[gameId].playerIds = gameRooms[gameId].playerIds.filter(playerId => playerId !== socket.id);
         const playerIds = gameRooms[gameId].playerIds;
         socket.broadcast.emit('update-lobby', playerIds);
     });
 });
+
