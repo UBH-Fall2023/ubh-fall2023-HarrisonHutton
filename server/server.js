@@ -54,5 +54,9 @@ io.on("connection", (socket) => {
         const players = gameRooms[gameId].players;
         socket.broadcast.emit('update-lobby', players);
     });
+
+    socket.on('start-game', (gameId) => {
+        socket.broadcast.emit('start-game', gameId);
+    });
 });
 
