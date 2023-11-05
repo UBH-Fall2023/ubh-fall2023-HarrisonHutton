@@ -131,6 +131,9 @@ io.on("connection", (socket) => {
         const allPlayersSubmitted = gameRooms[gameId].players.every(player => player.hasSubmittedAnswer);
         if (allPlayersSubmitted) {
             io.to(gameId).emit('all-answers-submitted', gameId);
+            const answers = gameRooms[gameId].players.map(player => player.answers[round]);
+            console.log('answers', answers);
+            io.to(gameId).emit('receive-answers', answers);
             /* Reset hasSubmittedAnswer for the next round. */
             gameRooms[gameId].players.forEach(player => player.hasSubmittedAnswer = false);
         }

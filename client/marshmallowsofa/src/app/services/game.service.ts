@@ -3,6 +3,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 
+export type Answer = {
+  promptText: string;
+  answerText: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +21,7 @@ export class GameService {
   private isHost = new BehaviorSubject<boolean>(false);
   socketId: string | null = null;
   private currentPrompt = new BehaviorSubject<string>('');
+  private currentAnswers = new BehaviorSubject<Answer[]>([]);
 
   constructor(
     private socket: Socket,
@@ -46,11 +52,24 @@ export class GameService {
       this.currentPrompt.next(prompt);
     });
 
+    this.socket.fromEvent<any>('all-answers-submitted').subscribe(() => {
+      this.router.navigate(['slideshow']);
+    });
+
+    this.socket.fromEvent<any>('receive-answers').subscribe((answers) => {
+      console.log('Received answers from the server!');
+      this.currentAnswers.next(answers);
+    });
+
     const audio = new Audio();
     audio.src = '../../assets/music/marshmallow-sofa.mp3';
     audio.load();
     audio.play();
     audio.loop = true;
+  }
+
+  get currentAnswersObservable(): Observable<Answer[]> {
+    return this.currentAnswers.asObservable();
   }
 
   get currentPromptObservable(): Observable<string> {
@@ -108,8 +127,8 @@ export class GameService {
     this.socket.emit('submit-prompt', this.gameId, round, prompt);
   }
 
-  submitAnswer(answer: string): void {
+  submitAnswer(prompt: string, answer: string): void {
     let round = 1
-    this.socket.emit('submit-answer', this.gameId, round, answer)
+    this.socket.emit('submit-answer', this.gameId, round, prompt, answer)
   }
 }

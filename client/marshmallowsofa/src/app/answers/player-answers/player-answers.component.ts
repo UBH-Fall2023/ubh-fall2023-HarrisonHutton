@@ -22,7 +22,7 @@ export class PlayerAnswersComponent {
   submitAnswer() {
     /* Get the prompt from the submitted form. */
     const answer = (document.getElementById('answer') as HTMLInputElement).value;
-    this.gameService.submitAnswer(answer);
+    this.gameService.submitAnswer(this.prompt, answer);
     this.submittedAnswer = true;
     /* Prevent the form from refreshing the page. */
     return false;

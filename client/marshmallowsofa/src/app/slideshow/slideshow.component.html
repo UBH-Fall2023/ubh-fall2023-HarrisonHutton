@@ -1,1 +1,11 @@
-<p>slideshow works!</p>
+<div class="h-screen">
+    <div class="h-full flex flex-col">
+        <div class="flex justify-center pt-10">
+            <a href="/">
+                <img src="../../assets/logos/Untitled_Artwork_8.png" alt="logo" class="h-[8rem]">
+            </a>
+        </div>
+        <app-host-slideshow *ngIf="isMainScreen"></app-host-slideshow>
+        <app-players-slideshow *ngIf="!isMainScreen"></app-players-slideshow>
+    </div>
+</div>

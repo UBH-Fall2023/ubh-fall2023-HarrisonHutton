@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { JoinComponent } from './join/join.component';
 import { PromptsComponent } from './prompts/prompts.component';
 import { AnswersComponent } from './answers/answers.component';
+import { SlideshowComponent } from './slideshow/slideshow.component';
 
 const routes: Routes = [
   { path: '', component: AppLayoutComponent, children: [
@@ -14,6 +15,7 @@ const routes: Routes = [
     { path: 'join', component: JoinComponent },
     { path: 'prompts', component: PromptsComponent },
     { path: 'answers', component: AnswersComponent },
+    { path: 'slideshow', component: SlideshowComponent}
   ]}
 ];
 
