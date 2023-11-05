@@ -8,15 +8,19 @@ import { Socket } from 'ngx-socket-io';
 export class GameService {
   private gameId: string | null = null
 
-  private players = this.socket.fromEvent<any>('update-lobby');
+  private players = new BehaviorSubject<any[]>([]);
 
-  constructor(private socket: Socket) { }
-
-  joinLobby(): void {
-    this.socket.emit('join-lobby', this.gameId, 'player1');
+  constructor(private socket: Socket) {
+    this.socket.fromEvent<any>('update-lobby').subscribe((players: any) => {
+      this.players.next(players);
+    });
   }
 
-  getPlayers(): Observable<any> {
+  joinLobby(playerName: string): void {
+    this.socket.emit('join-lobby', this.gameId, playerName);
+  }
+
+  getPlayers(): Observable<any[]> {
     return this.players;
   }
 

@@ -46,8 +46,12 @@ app.get('/createLobby', (_, res) => {
 
 
 io.on("connection", (socket) => {
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+
     socket.on('join-lobby', (gameId, playerName) => {
-        console.log('gameId', gameId);
+        console.log('gameId', gameId, 'playerName', playerName);
         const newPlayer = createNewPlayer(socket.id, playerName);
         if (gameRooms[gameId] === undefined) {
             console.log('ERROR: game not found');

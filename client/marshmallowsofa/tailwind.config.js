@@ -11,7 +11,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'campfire-background': "url('assets/backgrounds/Bg1_2.png')",
+        'campfire-background': "url('assets/backgrounds/Bg1_3.png')",
         'lobby-panel': "url('assets/backgrounds/Untitled_Artwork_4.png')"
       },
       fontFamily: {

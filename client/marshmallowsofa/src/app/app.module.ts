@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { SocketIoModule, SocketIoConfig, Socket } from 'ngx-socket-io';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
-import { CreateLobbyComponent } from './lobby/lobby.component';
+import { LobbyComponent } from './lobby/lobby.component';
 import { HomeComponent } from './home/home.component';
 import { PlayerCardComponent } from './lobby/player-card/player-card.component';
+import { JoinComponent } from './join/join.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: { 
   withCredentials: false,
@@ -18,15 +20,17 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {
   declarations: [
     AppComponent,
     AppLayoutComponent,
-    CreateLobbyComponent,
+    LobbyComponent,
     HomeComponent,
-    PlayerCardComponent
+    PlayerCardComponent,
+    JoinComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
