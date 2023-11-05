@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class PlayerCardComponent {
   @Input() name!: string;
+  @Input() isHost: boolean = false;
 }

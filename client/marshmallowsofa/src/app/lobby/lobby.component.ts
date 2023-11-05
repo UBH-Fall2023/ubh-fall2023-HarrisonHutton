@@ -19,7 +19,26 @@ export class CreateLobbyComponent {
 
   gameId = this.gameService.getGameId();
 
-  players: any = []
-  // players: any = [{name: 'player1'}]
+  // players: any = []
+  players: any = [
+    {displayName: 'player1'},
+    {displayName: 'player2'},
+    {displayName: 'player3'},
+    {displayName: 'player4'},
+    {displayName: 'player5'},
+    {displayName: 'player6'},
+    {displayName: 'player1'},
+    {displayName: 'player2'},
+    {displayName: 'player3'},
+    {displayName: 'player4'},
+    {displayName: 'player5'},
+    {displayName: 'player6'},
+    {displayName: 'player1'},
+    {displayName: 'player2'},
+    {displayName: 'player3'},
+    {displayName: 'player4'},
+    {displayName: 'player5'},
+    {displayName: 'player6'},
+  ]
 
 }
