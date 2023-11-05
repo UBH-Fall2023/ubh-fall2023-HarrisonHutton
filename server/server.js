@@ -31,7 +31,7 @@ let gameRooms = {};
 
 app.get('/createLobby', (_, res) => {
     
-    const gameCode = uuidv4().substring(0, 8); // generate an 8-character game ID using uuidv4
+    const gameCode = uuidv4().substring(0, 4); // generate an 8-character game ID using uuidv4
     const gameId = gameCode.toUpperCase(); // convert to uppercase
     const newGame = createNewGame(gameId);
     const newGameJSON = JSON.stringify(newGame);
