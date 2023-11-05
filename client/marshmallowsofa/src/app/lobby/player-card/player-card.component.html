@@ -1,7 +1,7 @@
 <div class="mb-4 p-4 text-2xl bg-off-white rounded-lg border-off-black border-solid border-4 uppercase font-bold">
     <div class="flex justify-between">
-        <div>{{ name }}</div>
-        <div *ngIf="isHost" class="flex flex-col justify-center">
+        <div>{{ player.displayName }}</div>
+        <div *ngIf="isHost && player.id == id" class="flex flex-col justify-center">
             <img src="../../../assets/icons/crown.png" alt="crown" class="h-7">
         </div>
     </div>

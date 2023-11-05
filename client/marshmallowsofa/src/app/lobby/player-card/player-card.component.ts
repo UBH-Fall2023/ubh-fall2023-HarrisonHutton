@@ -7,13 +7,15 @@ import { GameService } from 'src/app/services/game.service';
   styleUrls: ['./player-card.component.css']
 })
 export class PlayerCardComponent {
-  @Input() name!: string;
+  @Input() player!: any;
 
   isHost = false;
+  id: string | null = '';
 
   constructor(private gameService: GameService) { 
     this.gameService.isHostObservable.subscribe((isHost: boolean) => {
       this.isHost = isHost;
     });
+    this.id = this.gameService.socketId
   }
 }

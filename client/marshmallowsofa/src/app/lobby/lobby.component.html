@@ -35,7 +35,7 @@
                         <span class="text-2xl font-bold uppercase">Waiting for the host to start the game...</span>
                 </div>
                 <div *ngFor="let player of players" class="w-full">
-                    <app-player-card [name]="player.displayName"></app-player-card>
+                    <app-player-card [player]="player"></app-player-card>
                 </div>
             </div>
         </div>

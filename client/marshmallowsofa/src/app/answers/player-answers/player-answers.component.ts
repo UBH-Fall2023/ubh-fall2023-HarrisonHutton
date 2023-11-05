@@ -19,6 +19,8 @@ export class PlayerAnswersComponent {
     const answer = (document.getElementById('answer') as HTMLInputElement).value;
     this.gameService.submitAnswer(answer);
     this.submittedAnswer = true;
+    /* Prevent the form from refreshing the page. */
+    return false;
   }
   
 }
