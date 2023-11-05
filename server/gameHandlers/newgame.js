@@ -12,6 +12,7 @@ function createNewGame(gameId) {
             },
         }
         */
+        hostClientId: undefined,
         players: [],
         rounds: 1,
     }

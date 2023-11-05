@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-player-card',
@@ -7,5 +8,12 @@ import { Component, Input } from '@angular/core';
 })
 export class PlayerCardComponent {
   @Input() name!: string;
-  @Input() isHost: boolean = false;
+
+  isHost = false;
+
+  constructor(private gameService: GameService) { 
+    this.gameService.isHostObservable.subscribe((isHost: boolean) => {
+      this.isHost = isHost;
+    });
+  }
 }

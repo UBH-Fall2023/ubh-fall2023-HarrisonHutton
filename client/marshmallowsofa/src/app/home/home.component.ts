@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
       this.gameService.setGameId(data.gameId);
       /* Send a websocket message to the server to join the game as the host. */
       this.gameService.connectHost();
+      this.gameService.isMainScreenObservable = true;
       this.router.navigate(['lobby'])
     });
   }

@@ -52,6 +52,8 @@ io.on("connection", (socket) => {
         /* Need to connect host separately because it doesn't have a 
          * player name. */
         socket.join(gameId);
+        /* Look up the game by gameId and set the hostClientId. */
+        gameRooms[gameId].hostClientId = socket.id;
     });
 
     socket.on('join-lobby', (gameId, playerName) => {
@@ -66,8 +68,12 @@ io.on("connection", (socket) => {
         }
         gameRooms[gameId].players.push(newPlayer);
         const players = gameRooms[gameId].players;
+        const data = {
+            players: players,
+            socketId: socket.id
+        }
         console.log('players', players);
-        io.to(gameId).emit('update-lobby', players);
+        io.to(gameId).emit('update-lobby', data);
     });
 
     socket.on('leave-lobby', (gameId) => {
@@ -77,7 +83,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on('start-game', (gameId) => {
-        socket.broadcast.emit('start-game', gameId);
+        io.to(gameId).emit('start-game');
     });
 
     socket.on('update-rounds', (gameId, rounds) => {

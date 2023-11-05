@@ -1,28 +1,41 @@
 <div class="h-screen">
     <div class="h-full flex flex-col">
-        <div class="flex justify-center pt-10">
-            <img src="../../assets/logos/Untitled_Artwork_8.png" alt="logo" class="h-[8rem]">
+        <div class="flex justify-center pt-6 px-2">
+            <a href="/">
+                <img src="../../assets/logos/Untitled_Artwork_8.png" alt="logo" class="h-[8rem]">
+            </a>
         </div>
-        <div class="flex justify-center my-12">
+        <div class="flex justify-center my-6 px-2">
             <div class="flex justify-between p-8 w-[50rem] bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
                 <div>
-                    <h1 class="text-4xl font-bold">Lobby Code: {{ gameId }}</h1>
+                    <h1 class="text-4xl font-bold uppercase">Game Code: {{ gameId }}</h1>
                 </div>
                 <div>
                     <!-- Copy the link button -->
-                    <button id="copy-to-clipboard" class="p-2 bg-off-white rounded-2xl border-[6px] border-off-black relative uppercase font-bold hover:bg-off-white-hover ease-in-out duration-200"
+                    <button id="copy-to-clipboard" class="p-2 bg-off-white rounded-2xl border-[6px] border-off-black relative uppercase font-bold hover:bg-off-white-hover ease-in-out duration-300"
                         [cdkCopyToClipboard]="getGameLink()"
                         (cdkCopyToClipboardCopied)="onCopySuccess($event)"
-                        ><img src="../../assets/icons/copy.png" alt="copy to clipboard" class="h-[4rem]"></button>
+                        ><img src="../../assets/icons/copy.png" alt="copy to clipboard" class="max-h-[4rem] object-contain"></button>
                 </div>
             </div>
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-center px-2">
+            <!-- No players have joined yet -->
             <div *ngIf="players.length === 0" class="flex p-8 w-[50rem] h-[116px] bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
             </div>
-            <div *ngIf="players.length > 0" class="flex flex-col p-8 w-[50rem] min-h-[116px] max-h-[600px] overflow-y-scroll bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
-                <div *ngFor="let player of players; let i = index" class="w-full">
-                    <app-player-card [name]="player.displayName" [isHost]="i == 0"></app-player-card>
+
+            <!-- Players have joined -->
+            <div *ngIf="players.length > 0" class="flex flex-col p-8 w-[50rem] min-h-[116px] max-h-[420px] overflow-y-scroll bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
+                <div>
+                    <div *ngIf="isHost" class="mb-4">
+                        <button class="py-3 px-8 bg-off-white text-3xl text-off-black rounded-2xl border-[6px] border-off-black uppercase font-bold hover:bg-off-white-hover ease-in-out duration-300"
+                            (click)="startGame()">Start Game</button>
+                    </div>
+                    <div *ngIf="!isHost" class="mb-4">
+                        <span class="text-2xl font-bold uppercase">Waiting for the host to start the game...</span>
+                </div>
+                <div *ngFor="let player of players" class="w-full">
+                    <app-player-card [name]="player.displayName"></app-player-card>
                 </div>
             </div>
         </div>
