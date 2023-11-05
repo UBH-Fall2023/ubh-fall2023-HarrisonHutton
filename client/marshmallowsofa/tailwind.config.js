@@ -4,11 +4,18 @@ module.exports = {
   theme: {
     colors: {
       "dark-sky-purple": "#573F56",
-      "dark-sky-pink": "#993861"
+      "dark-sky-pink": "#993861",
+      "off-black": "#21211C",
+      "off-white": "#CEC9B0",
+      "off-white-hover": "#dbd8ca"
     },
     extend: {
       backgroundImage: {
-        'campfire-background': "url('assets/backgrounds/Untitled_Artwork_2.png')"
+        'campfire-background': "url('assets/backgrounds/Bg1_2.png')",
+        'lobby-panel': "url('assets/backgrounds/Untitled_Artwork_4.png')"
+      },
+      fontFamily: {
+        "sans": ["Playpen Sans", "sans-serif"]
       }
     },
   },

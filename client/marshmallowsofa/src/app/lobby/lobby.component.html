@@ -1,0 +1,24 @@
+<div class="h-screen">
+    <div class="h-full flex flex-col">
+        <div class="flex justify-center my-12">
+            <div class="p-8 w-[50rem] bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
+                <h1 class="text-4xl font-bold">Lobby Code: {{ gameId }}</h1>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <div class="flex">
+                <div *ngIf="players.length === 0">
+                    <div class="p-8 w-[50rem] h-[116px] bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
+                    </div>
+                </div>
+                <div *ngIf="players.length > 0">
+                    <div class="p-8 w-[50rem] h-[116px] bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
+                        <div *ngFor="let player of players">
+                            <app-player-card [name]="player.displayName"></app-player-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

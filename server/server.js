@@ -41,9 +41,15 @@ app.get('/createLobby', (_, res) => {
 
 io.on("connection", (socket) => {
     socket.on('join-lobby', (gameId, playerName) => {
+        console.log('gameId', gameId);
         const newPlayer = createNewPlayer(socket.id, playerName);
+        if (gameRooms[gameId] === undefined) {
+            console.log('ERROR: game not found');
+            return;
+        }
         gameRooms[gameId].players.push(newPlayer);
         const players = gameRooms[gameId].players;
+        console.log('players', players);
         socket.broadcast.emit('update-lobby', players);
     });
 
