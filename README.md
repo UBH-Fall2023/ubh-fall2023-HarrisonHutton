@@ -13,6 +13,7 @@ Right now, we have created a solid structure for the game, though we wish to add
 - a waiting page
 - player submission status (shows which players have submitted their answers already
 - etc.
+  
 We have a lot of plans for this web app to hopefully make it great so that people everywhere can play.
 
 # Code Style
