@@ -16,6 +16,10 @@ export class GameService {
     });
   }
 
+  connectHost(): void {
+    this.socket.emit('connect-host', this.gameId);
+  }
+
   joinLobby(playerName: string): void {
     this.socket.emit('join-lobby', this.gameId, playerName);
   }

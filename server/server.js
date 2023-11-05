@@ -50,7 +50,16 @@ io.on("connection", (socket) => {
         console.log('user disconnected');
     });
 
+    socket.on('connect-host', (gameId) => {
+        /* Need to connect host separately because it doesn't have a 
+         * player name. */
+        socket.join(gameId);
+    });
+
     socket.on('join-lobby', (gameId, playerName) => {
+        /* Add the socket to a room based on the game id, so that we can
+         * broadcast to all players in the room. */
+        socket.join(gameId);
         console.log('gameId', gameId, 'playerName', playerName);
         const newPlayer = createNewPlayer(socket.id, playerName);
         if (gameRooms[gameId] === undefined) {
@@ -60,13 +69,13 @@ io.on("connection", (socket) => {
         gameRooms[gameId].players.push(newPlayer);
         const players = gameRooms[gameId].players;
         console.log('players', players);
-        socket.broadcast.emit('update-lobby', players);
+        io.to(gameId).emit('update-lobby', players);
     });
 
     socket.on('leave-lobby', (gameId) => {
         gameRooms[gameId].players = gameRooms[gameId].players.filter(player => player.id !== socket.id);
         const players = gameRooms[gameId].players;
-        socket.broadcast.emit('update-lobby', players);
+        socket.emit('update-lobby', players);
     });
 
     socket.on('start-game', (gameId) => {

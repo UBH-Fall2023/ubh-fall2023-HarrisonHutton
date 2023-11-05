@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
       withCredentials: false
     }).subscribe((data: { gameId: string }) => {
       this.gameService.setGameId(data.gameId);
+      /* Send a websocket message to the server to join the game as the host. */
+      this.gameService.connectHost();
       this.router.navigate(['lobby'])
     });
   }
