@@ -31,13 +31,19 @@ let gameRooms = {};
 
 app.get('/createLobby', (_, res) => {
     
-    const gameCode = uuidv4().substring(0, 4); // generate an 8-character game ID using uuidv4
+    let gameCode = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < 4; i++) {
+        gameCode += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
     const gameId = gameCode.toUpperCase(); // convert to uppercase
     const newGame = createNewGame(gameId);
     const newGameJSON = JSON.stringify(newGame);
     gameRooms[gameId] = newGame;
     res.send(newGameJSON);
 })
+
 
 io.on("connection", (socket) => {
     socket.on('join-lobby', (gameId, playerName) => {
