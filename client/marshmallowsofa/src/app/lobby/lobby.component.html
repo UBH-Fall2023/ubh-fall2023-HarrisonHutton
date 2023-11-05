@@ -20,11 +20,9 @@
         <div class="flex justify-center">
             <div *ngIf="players.length === 0" class="flex p-8 w-[50rem] h-[116px] bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
             </div>
-            <div *ngIf="players.length > 0" class="flex p-8 w-[50rem] min-h-[116px] max-h-[600px] overflow-y-scroll bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
-                <div class="flex flex-col">
-                    <div *ngFor="let player of players; let i = index" class="w-full">
-                        <app-player-card [name]="player.displayName" [isHost]="i == 0"></app-player-card>
-                    </div>
+            <div *ngIf="players.length > 0" class="flex flex-col p-8 w-[50rem] min-h-[116px] max-h-[600px] overflow-y-scroll bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
+                <div *ngFor="let player of players; let i = index" class="w-full">
+                    <app-player-card [name]="player.displayName" [isHost]="i == 0"></app-player-card>
                 </div>
             </div>
         </div>
