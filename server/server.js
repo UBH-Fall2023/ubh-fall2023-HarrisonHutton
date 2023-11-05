@@ -13,7 +13,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const port = 3000
-const server = http.createServer(app);
+
+const server = app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+})
 
 const io = new Server(server, {
     cors: {
@@ -34,11 +37,6 @@ app.get('/createLobby', (_, res) => {
     const newGameJSON = JSON.stringify(newGame);
     gameRooms[gameId] = newGame;
     res.send(newGameJSON);
-})
-
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
 })
 
 io.on("connection", (socket) => {
