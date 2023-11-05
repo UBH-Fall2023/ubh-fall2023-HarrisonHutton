@@ -101,17 +101,32 @@ io.on("connection", (socket) => {
         player.prompts[round] = promptText;
         player.hasSubmittedPrompt = true;
         const allPlayersSubmitted = gameRooms[gameId].players.every(player => player.hasSubmittedPrompt);
-        console.log('allPlayersSubmitted', allPlayersSubmitted);
         if (allPlayersSubmitted) {
             io.to(gameId).emit('all-prompts-submitted', gameId);
+            /* Send every socket the prompt that it will be answering. Each
+             * socket will get a random prompt that was not their own and no
+             * two sockets will get the same prompt. */
+            let playerSet = new Set(gameRooms[gameId].players);
+            gameRooms[gameId].players.forEach(player => {
+                const otherPlayers = Array.from(playerSet).filter(otherPlayer => otherPlayer.id !== player.id);
+                const randomPlayer = otherPlayers[Math.floor(Math.random() * otherPlayers.length)];
+                const prompt = randomPlayer.prompts[round];
+                /* Remove this random player from the set so that their prompt
+                 * doesn't get chosen twice. */
+                playerSet.delete(randomPlayer);
+                io.to(player.id).emit('receive-prompt', prompt)
+            });
             /* Reset hasSubmittedPrompt for the next round. */
             gameRooms[gameId].players.forEach(player => player.hasSubmittedPrompt = false);
         }
     });
 
-    socket.on('submit-answer', (gameId, round, answerText) => {
+    socket.on('submit-answer', (gameId, round, promptText, answerText) => {
         const player = gameRooms[gameId].players.find(player => player.id === socket.id);
-        player.answers[round] = answerText;
+        player.answers[round] = {
+            promptText: promptText,
+            answerText: answerText,
+        };
         player.hasSubmittedAnswer = true;
         const allPlayersSubmitted = gameRooms[gameId].players.every(player => player.hasSubmittedAnswer);
         if (allPlayersSubmitted) {

@@ -9,10 +9,15 @@ import { GameService } from 'src/app/services/game.service';
 export class PlayerAnswersComponent {
 
   submittedAnswer = false;
+  prompt: string = '';
 
   constructor(
     private gameService: GameService
-  ) { }
+  ) { 
+    this.gameService.currentPromptObservable.subscribe((prompt: string) => {
+      this.prompt = prompt;
+    });
+  }
 
   submitAnswer() {
     /* Get the prompt from the submitted form. */

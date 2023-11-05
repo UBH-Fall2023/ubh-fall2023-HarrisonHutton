@@ -15,6 +15,7 @@ export class GameService {
   /* Used to determine if the client is the host of the game or not. */
   private isHost = new BehaviorSubject<boolean>(false);
   socketId: string | null = null;
+  private currentPrompt = new BehaviorSubject<string>('');
 
   constructor(
     private socket: Socket,
@@ -41,11 +42,19 @@ export class GameService {
       this.router.navigate(['answers']);
     });
 
+    this.socket.fromEvent<any>('receive-prompt').subscribe((prompt) => {
+      this.currentPrompt.next(prompt);
+    });
+
     const audio = new Audio();
     audio.src = '../../assets/music/marshmallow-sofa.mp3';
     audio.load();
     audio.play();
     audio.loop = true;
+  }
+
+  get currentPromptObservable(): Observable<string> {
+    return this.currentPrompt.asObservable();
   }
 
   get isHostObservable(): Observable<boolean> {
