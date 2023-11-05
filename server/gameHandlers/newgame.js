@@ -25,6 +25,9 @@ function createNewPlayer(id, displayName) {
         displayName: displayName,
         prompts: {},
         answers: {},
+        hasSubmittedPrompt: false,
+        hasSubmittedAnswer: false,
+        isHost: false,
     }
     return newPlayer;
 }

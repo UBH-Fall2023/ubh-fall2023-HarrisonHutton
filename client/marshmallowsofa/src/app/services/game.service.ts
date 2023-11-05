@@ -14,11 +14,20 @@ export class GameService {
   private isMainScreen = new BehaviorSubject<boolean>(false);
   /* Used to determine if the client is the host of the game or not. */
   private isHost = new BehaviorSubject<boolean>(false);
+  socketId: string | null = null;
 
   constructor(
     private socket: Socket,
     private router: Router
   ) {
+    this.socket.on('connect', () => {
+      this.socketId = this.socket.ioSocket.id;
+    });
+
+    this.socket.fromEvent<any>('set-host').subscribe(() => {
+      this.isHost.next(true);
+    });
+
     this.socket.fromEvent<any>('update-lobby').subscribe((data) => {
       this.playerId = data.socketId;
       this.players.next(data.players);

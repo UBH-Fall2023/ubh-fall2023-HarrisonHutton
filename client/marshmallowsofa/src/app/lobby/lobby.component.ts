@@ -17,10 +17,6 @@ export class LobbyComponent {
   ) { 
     this.gameService.getPlayers().subscribe((players: any) => {
       this.players = players;
-      console.log('players', this.players, 'this.players[0].id', this.players[0].id, 'this.gameService.getPlayerId()', this.gameService.getPlayerId())
-      if (this.players.length > 0 && this.players[0].id === this.gameService.getPlayerId()) {
-        this.gameService.isHostObservable = true;
-      }
     });
     this.gameService.isHostObservable.subscribe((isHost: boolean) => {
       this.isHost = isHost;

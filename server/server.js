@@ -67,6 +67,11 @@ io.on("connection", (socket) => {
             return;
         }
         gameRooms[gameId].players.push(newPlayer);
+        if (gameRooms[gameId].players.length === 1) {
+            /* If this is the first player to join, make them the host. */
+            newPlayer.isHost = true;
+            io.to(socket.id).emit('set-host');
+        }
         const players = gameRooms[gameId].players;
         const data = {
             players: players,
@@ -96,6 +101,7 @@ io.on("connection", (socket) => {
         player.prompts[round] = promptText;
         player.hasSubmittedPrompt = true;
         const allPlayersSubmitted = gameRooms[gameId].players.every(player => player.hasSubmittedPrompt);
+        console.log('allPlayersSubmitted', allPlayersSubmitted);
         if (allPlayersSubmitted) {
             io.to(gameId).emit('all-prompts-submitted', gameId);
             /* Reset hasSubmittedPrompt for the next round. */

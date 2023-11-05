@@ -14,11 +14,12 @@ export class PlayerPromptsComponent {
     private gameService: GameService
   ) { }
 
-  submitPrompt() {
+  submitPrompt(): boolean {
     /* Get the prompt from the submitted form. */
     const prompt = (document.getElementById('prompt') as HTMLInputElement).value;
     this.gameService.submitPrompt(prompt);
     this.submittedPrompt = true;
+    return false;
   }
 
 }
