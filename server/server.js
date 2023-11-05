@@ -1,9 +1,9 @@
 import express from 'express'
 import { Server } from 'socket.io';
 import * as http from 'http';
-import {v4 as uuidv4} from 'uuid';
+import {v4 as uuidv4 } from 'uuid';
 import cors from 'cors';
-import { createNewGame } from './gameHandlers/newGame.js'
+import { createNewGame, createNewPlayer } from './gameHandlers/newGame.js'
 
 const app = express()
 
@@ -25,8 +25,11 @@ const io = new Server(server, {
 
 let gameRooms = {};
 
+
 app.get('/createLobby', (_, res) => {
-    const gameId = uuidv4();
+    
+    const gameCode = uuidv4().substr(0, 8); // generate an 8-character game ID using uuidv4
+    const gameId = gameCode.toUpperCase(); // convert to uppercase
     const newGame = createNewGame(gameId);
     const newGameJSON = JSON.stringify(newGame);
     gameRooms[gameId] = newGame;
@@ -40,10 +43,7 @@ app.listen(port, () => {
 
 io.on("connection", (socket) => {
     socket.on('join-lobby', (gameId, playerName) => {
-        const newPlayer = {
-            id: socket.id,
-            displayName: playerName,
-        }
+        const newPlayer = createNewPlayer(socket.id, playerName);
         gameRooms[gameId].players.push(newPlayer);
         const players = gameRooms[gameId].players;
         socket.broadcast.emit('update-lobby', players);
@@ -57,6 +57,21 @@ io.on("connection", (socket) => {
 
     socket.on('start-game', (gameId) => {
         socket.broadcast.emit('start-game', gameId);
+    });
+
+    socket.on('update-rounds', (gameId, rounds) => {
+        gameRooms[gameId].rounds = rounds;
+        socket.broadcast.emit('update-rounds', gameId, rounds);
+    });
+
+    socket.on('submit-prompts', (gameId, round, promptText) => {
+        const player = gameRooms[gameId].players.find(player => player.id === socket.id);
+        player.prompts[round] = promptText;
+        player.hasSubmittedPrompt = true;
+        const allPlayersSubmitted = gameRooms[gameId].players.every(player => player.hasSubmittedPrompt);
+        if (allPlayersSubmitted) {
+            io.emit('all-prompts-submitted', gameId);
+        }
     });
 });
 
