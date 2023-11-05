@@ -1,7 +1,5 @@
 import express from 'express'
 import { Server } from 'socket.io';
-import * as http from 'http';
-import {v4 as uuidv4 } from 'uuid';
 import cors from 'cors';
 import { createNewGame, createNewPlayer } from './gameHandlers/newGame.js'
 
