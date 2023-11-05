@@ -10,6 +10,12 @@ export class PromptsComponent {
 
   constructor(
     private gameService: GameService
-  ) { }
+  ) { 
+    this.gameService.isMainScreenObservable.subscribe((isMainScreen: boolean) => {
+      this.isMainScreen = isMainScreen;
+    });
+  }
+
+  isMainScreen = false;
 
 }

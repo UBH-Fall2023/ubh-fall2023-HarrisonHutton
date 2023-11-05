@@ -7,8 +7,8 @@
         </div>
         <div class="flex justify-center my-12">
             <div class="p-8 w-[50rem] bg-off-white text-off-black rounded-xl border-[6px] border-off-black">
-                <form action="join-game" class="flex justify-between" (submit)="joinGame()">
-                    <input id="player-name" type="text" placeholder="ENTER YOUR NAME" class="bg-transparent outline-none">
+                <form class="flex justify-between" (submit)="joinGame()">
+                    <input id="player-name" type="text" autofocus placeholder="ENTER YOUR NAME" class="bg-transparent outline-none">
                     <button type="submit" class="py-3 px-8 bg-off-white text-3xl rounded-2xl border-[6px] border-off-black uppercase font-bold hover:bg-off-white-hover ease-in-out duration-300">Join</button>
                 </form>
             </div>

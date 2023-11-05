@@ -23,9 +23,15 @@ export class GameService {
       this.playerId = data.socketId;
       this.players.next(data.players);
     });
+
     this.socket.fromEvent<any>('start-game').subscribe(() => {
       this.router.navigate(['prompts']);
     });
+
+    this.socket.fromEvent<any>('all-prompts-submitted').subscribe(() => {
+      this.router.navigate(['answers']);
+    });
+
     const audio = new Audio();
     audio.src = '../../assets/music/marshmallow-sofa.mp3';
     audio.load();
@@ -77,5 +83,15 @@ export class GameService {
   // Setter for game ID
   setGameId(id: string): void {
     this.gameId = id;
+  }
+
+  submitPrompt(prompt: string): void {
+    let round = 1
+    this.socket.emit('submit-prompt', this.gameId, round, prompt);
+  }
+
+  submitAnswer(answer: string): void {
+    let round = 1
+    this.socket.emit('submit-answer', this.gameId, round, answer)
   }
 }

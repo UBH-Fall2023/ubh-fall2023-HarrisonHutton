@@ -24,6 +24,7 @@ function createNewPlayer(id, displayName) {
         id: id,
         displayName: displayName,
         prompts: {},
+        answers: {},
     }
     return newPlayer;
 }

@@ -14,6 +14,9 @@ import { JoinComponent } from './join/join.component';
 import { PromptsComponent } from './prompts/prompts.component';
 import { HostPromptsComponent } from './prompts/host-prompts/host-prompts.component';
 import { PlayerPromptsComponent } from './prompts/player-prompts/player-prompts.component';
+import { AnswersComponent } from './answers/answers.component';
+import { HostAnswersComponent } from './answers/host-answers/host-answers.component';
+import { PlayerAnswersComponent } from './answers/player-answers/player-answers.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: { 
   withCredentials: false,
@@ -30,6 +33,9 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {
     PromptsComponent,
     HostPromptsComponent,
     PlayerPromptsComponent,
+    AnswersComponent,
+    HostAnswersComponent,
+    PlayerAnswersComponent,
   ],
   imports: [
     BrowserModule,

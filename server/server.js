@@ -91,13 +91,27 @@ io.on("connection", (socket) => {
         socket.broadcast.emit('update-rounds', gameId, rounds);
     });
 
-    socket.on('submit-prompts', (gameId, round, promptText) => {
+    socket.on('submit-prompt', (gameId, round, promptText) => {
         const player = gameRooms[gameId].players.find(player => player.id === socket.id);
         player.prompts[round] = promptText;
         player.hasSubmittedPrompt = true;
         const allPlayersSubmitted = gameRooms[gameId].players.every(player => player.hasSubmittedPrompt);
         if (allPlayersSubmitted) {
-            io.emit('all-prompts-submitted', gameId);
+            io.to(gameId).emit('all-prompts-submitted', gameId);
+            /* Reset hasSubmittedPrompt for the next round. */
+            gameRooms[gameId].players.forEach(player => player.hasSubmittedPrompt = false);
+        }
+    });
+
+    socket.on('submit-answer', (gameId, round, answerText) => {
+        const player = gameRooms[gameId].players.find(player => player.id === socket.id);
+        player.answers[round] = answerText;
+        player.hasSubmittedAnswer = true;
+        const allPlayersSubmitted = gameRooms[gameId].players.every(player => player.hasSubmittedAnswer);
+        if (allPlayersSubmitted) {
+            io.to(gameId).emit('all-answers-submitted', gameId);
+            /* Reset hasSubmittedAnswer for the next round. */
+            gameRooms[gameId].players.forEach(player => player.hasSubmittedAnswer = false);
         }
     });
 });

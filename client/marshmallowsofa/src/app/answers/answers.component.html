@@ -1,0 +1,11 @@
+<div class="h-screen">
+    <div class="h-full flex flex-col">
+        <div class="flex justify-center pt-10">
+            <a href="/">
+                <img src="../../assets/logos/Untitled_Artwork_8.png" alt="logo" class="h-[8rem]">
+            </a>
+        </div>
+        <app-host-answers *ngIf="isMainScreen"></app-host-answers>
+        <app-player-answers *ngIf="!isMainScreen"></app-player-answers>
+    </div>
+</div>
